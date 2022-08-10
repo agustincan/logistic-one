@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+
+  portainer:
+    image: portainer/portainer-ce
+
+  identitydb:
+    image: postgres
+  #pg1:
+    #image: postgres
+
+  identity.api:
+    image: ${DOCKER_REGISTRY-}identityapi
+    build:
+      context: .
+      dockerfile: src/back/identity/Identity.Api/Dockerfile
+
+  clients.authentication:
+    image: ${DOCKER_REGISTRY-}clientsauthentication
+    build:
+      context: .
+      dockerfile: src/front/Clients.Authentication/Dockerfile
+
+  logistic.web:
+    image: ${DOCKER_REGISTRY-}logisticweb
+    build:
+      context: .
+      dockerfile: src/front/web/Logistic.Web/Dockerfile
+
+volumes:
+  #mongo_data:
+  portainer_data:
+  postgres_data:
+  #pgadmin_data:
+  #elasticsearch-data:

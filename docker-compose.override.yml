@@ -1,0 +1,50 @@
+version: '3.4'
+
+services:
+# admin
+  portainer:
+    container_name: portainerLogistic
+    restart: always
+    ports:
+      - "8090:8000"
+      - "9090:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data    
+# databases
+  identitydb:
+    container_name: identitydb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin1234
+      - POSTGRES_DB=logistic
+    restart: always
+    ports:
+        - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+# apis
+  identity.api:
+    container_name: "identity.api"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - identitydb
+    ports:
+      - "10000:80"
+# web
+  clients.authentication:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - identity.api
+    ports:
+      - "8000:80"
+
+
+  logistic.web:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
