@@ -26,7 +26,6 @@ namespace Transport.Api
             services.AddHttpContextAccessor();
 
             services.AddTransient<ITransportQueries, TransportQueries>();
-            //services.AddMediatR("");
 
             services.AddDbContext<AppDbContext>(options =>
                //options.UseSqlServer(

@@ -11,7 +11,9 @@ namespace Transport.Service.Queries.Dtos
         public TransportType? Type { get; set; }
         public string TypeName { get { return Type.HasValue ? Type.Value.ToString() : ""; } }
         public TransportMode? StatusMode { get; set; }
-        public string StatusModeName { get { return StatusMode.HasValue ? StatusMode.Value.ToString() : "" ; } }
+        public string StatusModeName { get { return StatusMode.HasValue ? StatusMode.Value.ToString() : ""; } }
         public StatusType Status { get; set; }
     }
+
+    //public record TransportDto( int Id );
 }

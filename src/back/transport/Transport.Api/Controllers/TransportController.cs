@@ -16,7 +16,7 @@ namespace Transport.Api.Controllers
     {
         private readonly AppDbContext context;
         private readonly ITransportQueries queryService;
-        private readonly ILogger logger;
+        private readonly ILogger<TransportController> logger;
         private readonly IMediator mediator;
 
         public TransportController(AppDbContext context, ITransportQueries queryService, IMediator mediator ,ILogger<TransportController> logger)
@@ -32,12 +32,6 @@ namespace Transport.Api.Controllers
         {
             return await queryService.GetAllAsync(page, take);
         }
-
-        //[HttpGet]
-        //public async Task<DataCollection<TransportDto>> Get(int page = 1, int take = 10)
-        //{
-        //    return await queryService.GetAllAsync(page, take);
-        //}
 
         [HttpGet("{id}")]
         public async Task<TransportDto> GetById(int id)

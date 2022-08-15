@@ -9,7 +9,7 @@ using Transport.Persistence;
 namespace Transport.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220614192708_inicio")]
+    [Migration("20220811134046_inicio")]
     partial class inicio
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

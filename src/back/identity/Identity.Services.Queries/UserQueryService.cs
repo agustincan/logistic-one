@@ -22,15 +22,6 @@ namespace Identity.Services.Queries
         {
             this.context = context;
         }
-        //public async Task<DataCollection<SystemUserDto>> GetAllAsync(int page, int take, IEnumerable<string> users)
-        //{
-        //    var collection = await context.Users
-        //        .Where(x => users == null || users.Contains(x.Id))
-        //        .OrderBy(x => x.FirstName)
-        //        .GetPagedAsync(page, take);
-
-        //    return collection.MapTo<DataCollection<SystemUserDto>>();
-        //}
 
         public async Task<DataCollection<SystemUserDto>> GetByUserAsync(int page, int take, IEnumerable<string> users)
         {
