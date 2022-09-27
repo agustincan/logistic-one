@@ -1,7 +1,7 @@
 using Api.Gateway.Proxies;
 using Microsoft.AspNetCore.Mvc;
 using Service.Common.Collection;
-using Transport.Service.Queries.Dtos;
+using Transport.Domain.Dtos;
 
 namespace Api.Gateway.WebClient.Controllers
 {

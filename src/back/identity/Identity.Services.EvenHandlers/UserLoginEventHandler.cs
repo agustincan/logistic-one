@@ -1,5 +1,4 @@
-﻿using Identity.Domain;
-using Identity.Persistence.Database;
+﻿using Common.Core.Domain;
 using Identity.Services.EvenHandlers.Commands;
 using Identity.Services.EvenHandlers.Responses;
 using MediatR;
@@ -15,13 +14,11 @@ namespace Identity.Services.EvenHandlers
 {
     public class UserLoginEventHandler: IRequestHandler<UserLoginCommand, IdentityAccess>
     {
-        private readonly AppDbContext context;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IConfiguration configuration;
 
-        public UserLoginEventHandler(AppDbContext context, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
+        public UserLoginEventHandler(SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
         {
-            this.context = context;
             this.signInManager = signInManager;
             this.configuration = configuration;
         }
@@ -29,7 +26,7 @@ namespace Identity.Services.EvenHandlers
         {
             var result = new IdentityAccess();
 
-            var user = await context.Users.SingleAsync(x => x.Email == notification.Email);
+            var user = await signInManager.UserManager.Users.SingleAsync(x => x.Email == notification.Email);
             var response = await signInManager.CheckPasswordSignInAsync(user, notification.Password, false);
 
             if (response.Succeeded)
@@ -54,14 +51,12 @@ namespace Identity.Services.EvenHandlers
                 new Claim(ClaimTypes.Surname, user.LastName)
             };
 
-            var roles = await context.Roles
-                                      .Where(x => x.UserRoles.Any(y => y.UserId == user.Id))
-                                      .ToListAsync();
+            var roles = await signInManager.UserManager.GetRolesAsync(user);
 
             foreach (var role in roles)
             {
                 claims.Add(
-                    new Claim(ClaimTypes.Role, role.Name)
+                    new Claim(ClaimTypes.Role, role)
                 );
             }
 

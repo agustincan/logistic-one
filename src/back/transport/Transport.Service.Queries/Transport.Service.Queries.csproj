@@ -1,13 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\common\Service.Common.Collection\Service.Common.Collection.csproj" />
-    <ProjectReference Include="..\..\..\common\Service.Common.Mapping\Service.Common.Mapping.csproj" />
-    <ProjectReference Include="..\..\..\common\Service.Common.Paging\Service.Common.Paging.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\Common.Core\Common.Core.csproj" />
     <ProjectReference Include="..\Transport.Domain\Transport.Domain.csproj" />
     <ProjectReference Include="..\Transport.Persistence\Transport.Persistence.csproj" />
   </ItemGroup>

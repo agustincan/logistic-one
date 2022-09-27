@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Identity.Services.Queries.Dtos
+namespace Identity.Services.EvenHandlers.Responses
 {
-    public class SystemRoleDto
+    public class UserList
     {
-        public string Name { get; set; }
     }
 }

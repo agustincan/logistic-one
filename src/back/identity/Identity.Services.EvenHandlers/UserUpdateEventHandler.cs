@@ -1,7 +1,5 @@
-﻿using Identity.Domain;
-using Identity.Persistence;
+﻿using Common.Core.Domain;
 using Identity.Services.EvenHandlers.Commands;
-using Identity.Services.EvenHandlers.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 

@@ -2,17 +2,17 @@
   "Routes": [
     {
       "UpstreamPathTemplate": "/api/{path}",
-      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamHttpMethod": [ "GET","POST","PUT" ],
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 23512
+          "Port": 5005
         }
       ],
       "DownstreamPathTemplate": "/{path}"
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:46201"
+    "BaseUrl": "http://localhost:5004"
   }
 }

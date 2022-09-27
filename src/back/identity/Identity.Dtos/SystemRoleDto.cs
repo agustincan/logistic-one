@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Identity.Dtos
 {
-    public class SystemRoleDto
+    public record SystemRoleDto
     {
-
+        public string Name { get; set; }
     }
 }

@@ -19,14 +19,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.5" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\common\Service.Common.Collection\Service.Common.Collection.csproj" />
     <ProjectReference Include="..\..\transport\Transport.Persistence\Transport.Persistence.csproj" />
     <ProjectReference Include="..\Identity.Dtos\Identity.Dtos.csproj" />
+    <ProjectReference Include="..\Identity.Persistence\Identity.Persistence.Database.csproj" />
     <ProjectReference Include="..\Identity.Services.EvenHandlers\Identity.Services.EvenHandlers.csproj" />
     <ProjectReference Include="..\Identity.Services.Queries\Identity.Services.Queries.csproj" />
   </ItemGroup>

@@ -1,31 +1,26 @@
-﻿using Identity.Dtos;
-using Identity.Persistence.Database;
+﻿using Common.Core.Collections;
+using Common.Core.Domain;
+using Common.Core.Mapping;
+using Common.Core.Paging;
+using Identity.Dtos;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Service.Common.Collection;
-using Service.Common.Mapping;
-using Service.Common.Paging;
+
 
 namespace Identity.Services.Queries
 {
-    public interface IUserQueryService
-    {
-        Task<SystemUserDto> GetAsync(string id);
-        Task<DataCollection<SystemUserDto>> GetByEmailAsync(int page, int take, IEnumerable<string> emails);
-        Task<DataCollection<SystemUserDto>> GetByUserAsync(int page, int take, IEnumerable<string> users);
-    }
-
     public class UserQueryService : IUserQueryService
     {
-        private readonly AppDbContext context;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public UserQueryService(AppDbContext context)
+        public UserQueryService(UserManager<ApplicationUser> userManager)
         {
-            this.context = context;
+            this.userManager = userManager;
         }
 
         public async Task<DataCollection<SystemUserDto>> GetByUserAsync(int page, int take, IEnumerable<string> users)
         {
-            var collection = await context.Users
+            var collection = await userManager.Users
                 .Where(x => users == null || users.Contains(x.UserName))
                 .OrderBy(x => x.FirstName)
                 .GetPagedAsync(page, take);
@@ -35,7 +30,7 @@ namespace Identity.Services.Queries
 
         public async Task<DataCollection<SystemUserDto>> GetByEmailAsync(int page, int take, IEnumerable<string> emails)
         {
-            var collection = await context.Users
+            var collection = await userManager.Users
                 .Where(x => emails == null || emails.Contains(x.Email))
                 .OrderBy(x => x.FirstName)
                 .GetPagedAsync(page, take);
@@ -45,7 +40,7 @@ namespace Identity.Services.Queries
 
         public async Task<SystemUserDto> GetAsync(string id)
         {
-            return (await context.Users.SingleAsync(x => x.Id == id)).MapTo<SystemUserDto>();
+            return (await userManager.Users.SingleAsync(x => x.Id == id)).MapTo<SystemUserDto>();
         }
     }
 }

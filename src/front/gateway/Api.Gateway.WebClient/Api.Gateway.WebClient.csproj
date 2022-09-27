@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\back\gateway\Api.Gateway.Proxies\Api.Gateway.Proxies.csproj" />
-    <ProjectReference Include="..\..\..\back\transport\Transport.Service.Queries\Transport.Service.Queries.csproj" />
     <ProjectReference Include="..\..\..\common\Service.Common.Collection\Service.Common.Collection.csproj" />
   </ItemGroup>
 

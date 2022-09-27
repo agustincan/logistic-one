@@ -1,7 +1,7 @@
 ﻿
 namespace Identity.Dtos
 {
-    public class SystemUserDto
+    public record SystemUserDto
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

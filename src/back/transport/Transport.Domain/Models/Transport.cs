@@ -1,4 +1,4 @@
-﻿using Domain.Common;
+﻿using Common.Core.Domain;
 
 namespace Transport.Domain.Models
 {

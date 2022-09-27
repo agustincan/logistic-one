@@ -1,8 +1,7 @@
-﻿using Identity.Domain;
+﻿using Common.Core.Domain;
 using Identity.Persistence.Database.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 
 namespace Identity.Persistence.Database
 {
@@ -21,7 +20,7 @@ namespace Identity.Persistence.Database
             base.OnModelCreating(builder);
 
             // Database schema
-            builder.HasDefaultSchema("Identity");
+            //builder.HasDefaultSchema("Identity");
 
             // Model Contraints
             ModelConfig(builder);

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Service.Common.Collection;
 using System.Text.Json;
-using Transport.Service.Queries.Dtos;
+using Transport.Domain.Dtos;
 
 namespace Api.Gateway.Proxies
 {
@@ -21,6 +21,12 @@ namespace Api.Gateway.Proxies
             this.httpClient = httpClient;
             this.apiUrls = apiUrls.Value;
         }
+
+        //public TransportApiProxy(IHttpClientFactory client2, IOptions<ApiUrls> apiUrls)
+        //{
+        //    this.httpClient = httpClient;
+        //    this.apiUrls = apiUrls.Value;
+        //}
 
         public async Task<DataCollection<TransportDto>> GetAllAsync(int page, int take)
         {

@@ -1,55 +1,46 @@
-﻿using MediatR;
+﻿using Common.Core.Collections;
+using Common.Core.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Service.Common.Collection;
 using System.Threading.Tasks;
-using Transport.Persistence;
+using Transport.Domain.Dtos;
 using Transport.Service.EventHandler.Command;
-using Transport.Service.Queries;
-using Transport.Service.Queries.Dtos;
+using Transport.Service.EventHandler.Queries;
 
 namespace Transport.Api.Controllers
 {
     [ApiController]
     [Route("transport")]
-    public class TransportController : Controller
+    public class TransportController : BaseApiGenericController<TransportController>
     {
-        private readonly AppDbContext context;
-        private readonly ITransportQueries queryService;
-        private readonly ILogger<TransportController> logger;
-        private readonly IMediator mediator;
 
-        public TransportController(AppDbContext context, ITransportQueries queryService, IMediator mediator ,ILogger<TransportController> logger)
+        public TransportController()
         {
-            this.context = context;
-            this.queryService = queryService;
-            this.logger = logger;
-            this.mediator = mediator;
+            
         }
         
         [HttpGet]
         public async Task<DataCollection<TransportDto>> Get(int page = 1, int take = 10)
         {
-            return await queryService.GetAllAsync(page, take);
+            return await mediator.Send(new TransportListAll() { });
         }
 
         [HttpGet("{id}")]
         public async Task<TransportDto> GetById(int id)
         {
-            return await queryService.GetByIdAsync(id);
+            return await mediator.Send(new TransportGetById() { id = id });
         }
 
         [HttpGet("license/{license}")]
         public async Task<DataCollection<TransportDto>> GetByLicense(string license)
         {
-            return await queryService.GetByLicenseAsync(license);
+            return await mediator.Send(new TransportGetByLicense() { License = license });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(TransportCreateCommand2 command)
+        public async Task<IActionResult> Create(TransportCreateCommand command)
         {
             var res = await mediator.Send(command);
-            return Ok(new { id = res.Id });
+            return Ok(new { id = res });
         }
     }
 }

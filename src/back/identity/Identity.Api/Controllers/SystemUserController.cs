@@ -1,9 +1,9 @@
-﻿using Identity.Dtos;
+﻿using Common.Core.Collections;
+using Identity.Dtos;
 using Identity.Services.EvenHandlers.Commands;
 using Identity.Services.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Service.Common.Collection;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,16 +24,16 @@ namespace Identity.Api.Controllers
 
         [HttpGet()]
         [Route("user/{user}")]
-        public Task<DataCollection<SystemUserDto>> GetByUser(string user)
+        public async Task<DataCollection<SystemUserDto>> GetByUser(string user)
         {
-            return queryService.GetByUserAsync(1, 10, new string[] { user });
+            return await queryService.GetByUserAsync(1, 10, new string[] { user });
         }
 
         [HttpGet]
         [Route("email/{email}")]
-        public Task<DataCollection<SystemUserDto>> GetByEmail(string email)
+        public async Task<DataCollection<SystemUserDto>> GetByEmail(string email)
         {
-            return queryService.GetByEmailAsync(1,10, new string[] { email });
+            return await queryService.GetByEmailAsync(1,10, new string[] { email });
         }
 
         [HttpPost]

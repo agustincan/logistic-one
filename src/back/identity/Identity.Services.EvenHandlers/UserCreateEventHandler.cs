@@ -1,9 +1,9 @@
-﻿using Identity.Domain;
-using Identity.Persistence;
+﻿using Common.Core.Domain;
+using Common.Core.Multitenancy;
 using Identity.Services.EvenHandlers.Commands;
-using Identity.Services.EvenHandlers.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace Identity.Services.EvenHandlers
 {
@@ -25,7 +25,16 @@ namespace Identity.Services.EvenHandlers
                 LastName = command.LastName,
                 UserName = command.UserName
             };
-            return await userManager.CreateAsync(newUser, command.Password);
+            var result = await userManager.CreateAsync(newUser, command.Password);
+
+            var customClaims = new List<Claim>()
+            {
+                new Claim(ConstantsMultitenancy.ClaimTenantId, newUser.Id)
+            };
+
+            await userManager.AddClaimsAsync(newUser, customClaims);
+
+            return result;
         }
     }
 }

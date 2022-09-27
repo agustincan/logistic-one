@@ -1,12 +1,11 @@
-using Identity.Domain;
+using Common.Core.Domain;
 using Identity.Persistence.Database;
+using Identity.Services.EvenHandlers.DependencyInjection;
 using Identity.Services.Queries;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -60,9 +59,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 // Query services
-builder.Services.AddTransient<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
 // cqrs
-builder.Services.AddMediatR(Assembly.Load("Identity.Services.EvenHandlers"));
+builder.Services.AddEventHandleLayer();
+//builder.Services.AddMediatR(Assembly.Load("Identity.Services.EvenHandlers"));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -1,6 +1,4 @@
-﻿using Service.Common.Collection;
-using Service.Common.Mapping;
-using Service.Common.Paging;
+﻿using Common.Core.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +11,7 @@ namespace Transport.Service.Queries
     public interface ITransportQueries
     {
         Task<DataCollection<TransportDto>> GetAllAsync(int page, int take);
-        Task<DataCollection<TransportDto>> GetByDescriptionAsync(IEnumerable<int> ids, int page = 1, int take = 20);
+        Task<DataCollection<TransportDto>> GetByIdsAsync(IEnumerable<int> ids, int page = 1, int take = 20);
         Task<DataCollection<TransportDto>> GetByDescriptionAsync(string description, int page = 1, int take = 20);
         Task<DataCollection<TransportDto>> GetByLicenseAsync(string license, int page = 1, int take = 20);
         Task<TransportDto> GetByIdAsync(int id);
@@ -29,7 +27,7 @@ namespace Transport.Service.Queries
         }
         public async Task<DataCollection<TransportDto>> GetAllAsync(int page, int take)
         {
-            var result = await context.Transports.GetPagedAsync(page, take);
+            var result = await context.Transports.OrderBy(t => t.Id).GetPagedAsync(page, take);
             return result.MapTo<DataCollection<TransportDto>>();
         }
         public async Task<TransportDto> GetByIdAsync(int id)
@@ -37,7 +35,7 @@ namespace Transport.Service.Queries
             var result = await context.Transports.FindAsync(id);
             return result.MapTo<TransportDto>();
         }
-        public async Task<DataCollection<TransportDto>> GetByDescriptionAsync(IEnumerable<int> ids, int page = 1, int take = 20)
+        public async Task<DataCollection<TransportDto>> GetByIdsAsync(IEnumerable<int> ids, int page = 1, int take = 20)
         {
             var result = await context.Transports.Where(t => ids.Contains(t.Id)).GetPagedAsync(page, take);
             return result.MapTo<DataCollection<TransportDto>>();
