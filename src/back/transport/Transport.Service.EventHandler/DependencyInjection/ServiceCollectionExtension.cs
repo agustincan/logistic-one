@@ -6,7 +6,7 @@ namespace Transport.Service.EventHandler.DependencyInjection
 {
     public static class ServiceCollectionExtension
     {
-        public static IServiceCollection AddEventHandleLayer(this IServiceCollection services)
+        public static IServiceCollection AddMediaTrEventHandlerLayer(this IServiceCollection services)
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
             return services;

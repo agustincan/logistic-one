@@ -2,7 +2,7 @@
 using Common.Core.Mapping;
 using Common.Core.Paging;
 using MediatR;
-using System.Collections.Generic;
+using MediatR.Wrappers;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,7 +25,8 @@ namespace Transport.Service.EventHandler.Queries
         }
         public async Task<DataCollection<TransportDto>> Handle(TransportListAll request, CancellationToken cancellationToken)
         {
-            var result = await context.Transports.OrderBy(t => t.Id).GetPagedAsync(request.Page, request.Take);
+            var result = await context.Transports.OrderBy(t => t.Id)
+                .GetPagedAsync(request.Page, request.Take);
             return result.MapTo<DataCollection<TransportDto>>();
         }
     }

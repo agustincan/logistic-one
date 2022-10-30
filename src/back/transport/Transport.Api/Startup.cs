@@ -1,12 +1,11 @@
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Transport.Persistence;
-using System.Reflection;
 using Transport.Service.EventHandler.DependencyInjection;
 
 namespace Transport.Api
@@ -24,20 +23,33 @@ namespace Transport.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options =>
-               //options.UseSqlServer(
-               //    Configuration.GetConnectionString("DefaultConnection"),
-               //    x => x.MigrationsHistoryTable("__EFMigrationsHistory", "Transport")
-               //)
-               options.UseNpgsql(Configuration.GetConnectionString("CnnPg1")
-               //opt => opt.MigrationsHistoryTable("__EFMigrationsHistory", "Transport")
-               )
-            );
+               options.UseSqlServer(
+                   Configuration.GetConnectionString("DefaultConnection")
+               //x => x.MigrationsHistoryTable("__EFMigrationsHistory", "Transport")
+               ));
+
+            //options.UseNpgsql(Configuration.GetConnectionString("CnnPg1")
+            ////opt => opt.MigrationsHistoryTable("__EFMigrationsHistory", "Transport")
+            //)
+            //);
 
             services.AddHttpContextAccessor();
 
-            services.AddEventHandleLayer();
+            services.AddMediaTrEventHandlerLayer();
 
             services.AddControllers();
+
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+            services.AddApiVersioning(opt =>
+            {
+                opt.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+                opt.AssumeDefaultVersionWhenUnspecified = true;
+                opt.ReportApiVersions = true;
+                opt.ApiVersionReader = ApiVersionReader.Combine(new UrlSegmentApiVersionReader(),
+                                                                new HeaderApiVersionReader("x-api-version"),
+                                                                new MediaTypeApiVersionReader("x-api-version"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,12 +58,14 @@ namespace Transport.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseApiVersioning();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

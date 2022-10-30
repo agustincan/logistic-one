@@ -1,5 +1,6 @@
 ﻿using Common.Core.Collections;
 using Common.Core.Controllers;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Transport.Domain.Dtos;
@@ -8,20 +9,22 @@ using Transport.Service.EventHandler.Queries;
 
 namespace Transport.Api.Controllers
 {
-    [ApiController]
-    [Route("transport")]
-    public class TransportController : BaseApiGenericController<TransportController>
+    //[Route("transport")]
+    //[Route("api/v{version:apiVersion}/[controller]")]
+    //[ApiVersion("1.0")]
+    public class TransportController : BaseApiController<TransportController>
     {
 
-        public TransportController()
+        public TransportController(IMediator mediator)
         {
-            
+            this.mediator = mediator;
         }
-        
+
+        //[MapToApiVersion("1.0")]
         [HttpGet]
-        public async Task<DataCollection<TransportDto>> Get(int page = 1, int take = 10)
+        public async Task<DataCollection<TransportDto>> Get(int page = 1, int take = 20)
         {
-            return await mediator.Send(new TransportListAll() { });
+            return await mediator.Send(new TransportListAll() { Page = page, Take = take });
         }
 
         [HttpGet("{id}")]
