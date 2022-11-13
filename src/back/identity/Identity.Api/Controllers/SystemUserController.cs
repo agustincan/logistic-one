@@ -1,4 +1,5 @@
 ﻿using Common.Core.Collections;
+using Common.Core.Mapping;
 using Identity.Dtos;
 using Identity.Services.EvenHandlers.Commands;
 using Identity.Services.Queries;
@@ -26,14 +27,16 @@ namespace Identity.Api.Controllers
         [Route("user/{user}")]
         public async Task<DataCollection<SystemUserDto>> GetByUser(string user)
         {
-            return await queryService.GetByUserAsync(1, 10, new string[] { user });
+            return (await queryService.GetByUserAsync(1, 10, new string[] { user }))
+                .MapTo<DataCollection<SystemUserDto>>();
         }
 
         [HttpGet]
         [Route("email/{email}")]
         public async Task<DataCollection<SystemUserDto>> GetByEmail(string email)
         {
-            return await queryService.GetByEmailAsync(1,10, new string[] { email });
+            return (await queryService.GetByEmailAsync(1,10, new string[] { email }))
+                .MapTo<DataCollection<SystemUserDto>>();
         }
 
         [HttpPost]
@@ -59,7 +62,6 @@ namespace Identity.Api.Controllers
                 {
                     return BadRequest("Access denied");
                 }
-
                 return Ok(result);
             }
 

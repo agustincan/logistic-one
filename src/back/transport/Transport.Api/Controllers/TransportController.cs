@@ -1,5 +1,6 @@
 ﻿using Common.Core.Collections;
 using Common.Core.Controllers;
+using Common.Core.Mapping;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -24,19 +25,24 @@ namespace Transport.Api.Controllers
         [HttpGet]
         public async Task<DataCollection<TransportDto>> Get(int page = 1, int take = 20)
         {
-            return await mediator.Send(new TransportListAll() { Page = page, Take = take });
+            var result = await mediator.Send(new TransportListAll() { Page = page, Take = take });
+            return result.MapTo<DataCollection<TransportDto>>();
         }
 
         [HttpGet("{id}")]
-        public async Task<TransportDto> GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            return await mediator.Send(new TransportGetById() { id = id });
+            var resultOption = await mediator.Send(new TransportGetById() { id = id });
+            //resultOption.Filter(x => x.Status == Common.Core.Domain.StatusType.Enabled);
+            var result = resultOption.Map(r => r.MapTo<TransportDto>());
+            return result.Match<IActionResult>(Ok, NotFound);
         }
 
         [HttpGet("license/{license}")]
         public async Task<DataCollection<TransportDto>> GetByLicense(string license)
         {
-            return await mediator.Send(new TransportGetByLicense() { License = license });
+            var result = (await mediator.Send(new TransportGetByLicense() { License = license }));
+            return result.MapTo<DataCollection<TransportDto>>();
         }
 
         [HttpPost]

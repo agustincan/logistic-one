@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="LanguageExt.Core" Version="4.2.9" />
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
@@ -21,6 +22,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Transport.Persistence\Transport.Persistence.csproj" />
     <ProjectReference Include="..\Transport.Service.EventHandler\Transport.Service.EventHandler.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Middlewares\" />
+    <Folder Include="Validators\" />
   </ItemGroup>
 
 

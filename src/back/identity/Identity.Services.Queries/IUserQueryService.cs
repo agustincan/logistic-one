@@ -1,12 +1,13 @@
 ﻿using Common.Core.Collections;
+using Common.Core.Domain;
 using Identity.Dtos;
 
 namespace Identity.Services.Queries
 {
     public interface IUserQueryService
     {
-        Task<SystemUserDto> GetAsync(string id);
-        Task<DataCollection<SystemUserDto>> GetByEmailAsync(int page, int take, IEnumerable<string> emails);
-        Task<DataCollection<SystemUserDto>> GetByUserAsync(int page, int take, IEnumerable<string> users);
+        Task<ApplicationUser> GetAsync(string id);
+        Task<DataCollection<ApplicationUser>> GetByEmailAsync(int page, int take, IEnumerable<string> emails);
+        Task<DataCollection<ApplicationUser>> GetByUserAsync(int page, int take, IEnumerable<string> users);
     }
 }

@@ -18,29 +18,29 @@ namespace Identity.Services.Queries
             this.userManager = userManager;
         }
 
-        public async Task<DataCollection<SystemUserDto>> GetByUserAsync(int page, int take, IEnumerable<string> users)
+        public async Task<DataCollection<ApplicationUser>> GetByUserAsync(int page, int take, IEnumerable<string> users)
         {
             var collection = await userManager.Users
                 .Where(x => users == null || users.Contains(x.UserName))
                 .OrderBy(x => x.FirstName)
                 .GetPagedAsync(page, take);
 
-            return collection.MapTo<DataCollection<SystemUserDto>>();
+            return collection;
         }
 
-        public async Task<DataCollection<SystemUserDto>> GetByEmailAsync(int page, int take, IEnumerable<string> emails)
+        public async Task<DataCollection<ApplicationUser>> GetByEmailAsync(int page, int take, IEnumerable<string> emails)
         {
             var collection = await userManager.Users
                 .Where(x => emails == null || emails.Contains(x.Email))
                 .OrderBy(x => x.FirstName)
                 .GetPagedAsync(page, take);
 
-            return collection.MapTo<DataCollection<SystemUserDto>>();
+            return collection.MapTo<DataCollection<ApplicationUser>>();
         }
 
-        public async Task<SystemUserDto> GetAsync(string id)
+        public async Task<ApplicationUser> GetAsync(string id)
         {
-            return (await userManager.Users.SingleAsync(x => x.Id == id)).MapTo<SystemUserDto>();
+            return (await userManager.Users.SingleAsync(x => x.Id == id)).MapTo<ApplicationUser>();
         }
     }
 }
