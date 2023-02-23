@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Transport.Persistence\Transport.Persistence.csproj" />
+    <ProjectReference Include="..\Transport.Repository\Transport.Repository.csproj" />
     <ProjectReference Include="..\Transport.Service.EventHandler\Transport.Service.EventHandler.csproj" />
   </ItemGroup>
 

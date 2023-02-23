@@ -3,8 +3,11 @@ using Common.Core.Controllers;
 using Common.Core.Mapping;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Transport.Api.Services;
 using Transport.Domain.Dtos;
+using Transport.Repository.Repos;
 using Transport.Service.EventHandler.Command;
 using Transport.Service.EventHandler.Queries;
 
@@ -15,10 +18,16 @@ namespace Transport.Api.Controllers
     //[ApiVersion("1.0")]
     public class TransportController : BaseApiController<TransportController>
     {
+        private readonly ITransportRepository repo;
+        private readonly ITransportService transportService;
 
-        public TransportController(IMediator mediator)
+        public TransportController(IMediator mediator,
+            ITransportRepository repo,
+            ITransportService transportService )
         {
             this.mediator = mediator;
+            this.repo = repo;
+            this.transportService = transportService;
         }
 
         //[MapToApiVersion("1.0")]
@@ -32,24 +41,45 @@ namespace Transport.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var resultOption = await mediator.Send(new TransportGetById() { id = id });
-            //resultOption.Filter(x => x.Status == Common.Core.Domain.StatusType.Enabled);
-            var result = resultOption.Map(r => r.MapTo<TransportDto>());
-            return result.Match<IActionResult>(Ok, NotFound);
+            //var resultOption = await mediator.Send(new TransportGetById() { id = id });
+            ////resultOption.Filter(x => x.Status == Common.Core.Domain.StatusType.Enabled);
+            //var result = resultOption.Map(r => r.MapTo<TransportDto>());
+            //return result.Match<IActionResult>(Ok, NotFound);
+
+            var resultOptionRepo = await repo.GetByIdAsyncRepo(id);
+
+            return resultOptionRepo
+                .Map(r => r.MapTo<TransportDto>())
+                .Match<IActionResult>(Ok, NotFound);
         }
 
         [HttpGet("license/{license}")]
-        public async Task<DataCollection<TransportDto>> GetByLicense(string license)
+        public async Task<IActionResult> GetByLicense(string license)
         {
             var result = (await mediator.Send(new TransportGetByLicense() { License = license }));
-            return result.MapTo<DataCollection<TransportDto>>();
+            //result.Items.Map(i => i.MapTo<TransportDto>());
+            return result
+                .Map(r => r.Items.Map(rr => rr.MapTo<TransportDto>()))
+                .Match<IActionResult>(r => Ok(r), NotFound);
+        }
+
+        [HttpPost("by-ids")]
+        public async Task<IActionResult> GetByIds(int[] ids)
+        {
+            //var result = await repo.GetByIdsAsync(ids);
+            var result = await transportService.GetByIds(ids);
+            //result.Items.Map(i => i.MapTo<TransportDto>());
+            return Ok(result.MapTo<IEnumerable<TransportDto>>());
+                //.Map(r => r.Items.Map(rr => rr.MapTo<TransportDto>()))
+                //.Match<IActionResult>(r => Ok(r), NotFound);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(TransportCreateCommand command)
         {
-            var res = await mediator.Send(command);
-            return Ok(new { id = res });
+            var resultOption = await mediator.Send(command);
+            return resultOption.Match<IActionResult>(r => Ok(new { id = r }), NotFound); 
+            //Ok(new { id = res });
         }
     }
 }

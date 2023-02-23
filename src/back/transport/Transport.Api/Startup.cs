@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Transport.Persistence;
+using Transport.Repository;
 using Transport.Service.EventHandler.DependencyInjection;
 
 namespace Transport.Api
@@ -36,6 +37,8 @@ namespace Transport.Api
             services.AddHttpContextAccessor();
 
             services.AddMediaTrEventHandlerLayer();
+            services.AddRepositories();
+            services.AddServicesApi();
 
             services.AddControllers();
 

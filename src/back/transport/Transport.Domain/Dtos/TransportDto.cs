@@ -13,6 +13,7 @@ namespace Transport.Domain.Dtos
         public TransportMode? StatusMode { get; set; }
         public string StatusModeName { get { return StatusMode.HasValue ? StatusMode.Value.ToString() : ""; } }
         public StatusType Status { get; set; }
+        public string testtt { get; set; } = $"Testt fdjkjdkj";
     }
 
     //public record TransportDto( int Id );

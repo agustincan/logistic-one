@@ -1,5 +1,6 @@
 ﻿using Common.Core.Collections;
 using Common.Core.Paging;
+using LanguageExt;
 using MediatR;
 using System.Linq;
 using System.Threading;
@@ -9,12 +10,12 @@ using Transport.Persistence;
 
 namespace Transport.Service.EventHandler.Queries
 {
-    public class TransportGetByLicense : TransportBaseQuery, IRequest<DataCollection<Transportt>>
+    public class TransportGetByLicense : TransportBaseQuery, IRequest<Option<DataCollectionOption<Transportt>>>
     {
         public string License { get; set; }
     }
 
-    internal class TransportGetByLicenseHandler : IRequestHandler<TransportGetByLicense, DataCollection<Transportt>>
+    internal class TransportGetByLicenseHandler : IRequestHandler<TransportGetByLicense, Option<DataCollectionOption<Transportt>>>
     {
         private readonly AppDbContext context;
 
@@ -22,12 +23,12 @@ namespace Transport.Service.EventHandler.Queries
         {
             this.context = context;
         }
-        public async Task<DataCollection<Transportt>> Handle(TransportGetByLicense request, CancellationToken cancellationToken)
+        public async Task<Option<DataCollectionOption<Transportt>>> Handle(TransportGetByLicense request, CancellationToken cancellationToken)
         {
             var result = await context.Transports
                 .Where(t => t.License.Contains(request.License))
                 .OrderBy(t => t.Id)
-                .GetPagedAsync(request.Page, request.Take);
+                .GetPagedOptionAsync(request.Page, request.Take);
             return result;
         }
     }
