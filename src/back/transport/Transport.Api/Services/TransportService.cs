@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using LanguageExt;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Transport.Domain.Models;
 using Transport.Repository.Repos;
@@ -7,7 +8,8 @@ namespace Transport.Api.Services
 {
     public interface ITransportService
     {
-        Task<IEnumerable<Transportt>> GetByIds(int[] Ids);
+        Task<Option<Transportt>> GetByIdAsync(int Id);
+        Task<IEnumerable<Transportt>> GetByIdsAsync(int[] Ids);
     }
 
     public class TransportService : ITransportService
@@ -19,7 +21,12 @@ namespace Transport.Api.Services
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<Transportt>> GetByIds(int[] Ids)
+        public async Task<Option<Transportt>> GetByIdAsync(int Id)
+        {
+            return await repository.GetByIdAsync(Id);
+        }
+
+        public async Task<IEnumerable<Transportt>> GetByIdsAsync(int[] Ids)
         {
             return await repository.GetByIdsAsync(Ids);
         }

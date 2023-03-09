@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection;
 using Transport.Domain.Models;
 
 namespace Transport.Persistence
@@ -17,6 +19,11 @@ namespace Transport.Persistence
             base.OnModelCreating(modelBuilder);
             //modelBuilder.HasDefaultSchema("Transport");
             ModelConfig(modelBuilder);
+        }
+
+        public string GetTableName<T>()
+        {
+            return ((TableAttribute)typeof(T).GetCustomAttribute(typeof(TableAttribute))).Name;
         }
 
         private void ModelConfig(ModelBuilder modelBuilder)

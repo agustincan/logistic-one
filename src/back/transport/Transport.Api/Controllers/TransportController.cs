@@ -22,11 +22,9 @@ namespace Transport.Api.Controllers
         private readonly ITransportService transportService;
 
         public TransportController(IMediator mediator,
-            ITransportRepository repo,
             ITransportService transportService )
         {
             this.mediator = mediator;
-            this.repo = repo;
             this.transportService = transportService;
         }
 
@@ -46,7 +44,7 @@ namespace Transport.Api.Controllers
             //var result = resultOption.Map(r => r.MapTo<TransportDto>());
             //return result.Match<IActionResult>(Ok, NotFound);
 
-            var resultOptionRepo = await repo.GetByIdAsyncRepo(id);
+            var resultOptionRepo = await transportService.GetByIdAsync(id);
 
             return resultOptionRepo
                 .Map(r => r.MapTo<TransportDto>())
@@ -67,7 +65,7 @@ namespace Transport.Api.Controllers
         public async Task<IActionResult> GetByIds(int[] ids)
         {
             //var result = await repo.GetByIdsAsync(ids);
-            var result = await transportService.GetByIds(ids);
+            var result = await transportService.GetByIdsAsync(ids);
             //result.Items.Map(i => i.MapTo<TransportDto>());
             return Ok(result.MapTo<IEnumerable<TransportDto>>());
                 //.Map(r => r.Items.Map(rr => rr.MapTo<TransportDto>()))

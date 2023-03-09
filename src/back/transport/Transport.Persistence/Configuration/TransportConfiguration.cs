@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using Transport.Domain.Models;
@@ -9,6 +10,7 @@ namespace Transport.Persistence
     {
         public TransportConfiguration(EntityTypeBuilder<Transportt> entityBuilder)
         {
+            //entityBuilder.ToTable("Transports");
             entityBuilder.HasIndex(x => x.Id);
             entityBuilder.Property(x => x.Description).IsRequired().HasMaxLength(200);
 

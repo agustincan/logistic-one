@@ -1,7 +1,9 @@
 ﻿using Common.Core.Domain;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Transport.Domain.Models
 {
+    [Table("Transports")]
     public class Transportt
     {
         public int Id { get; set; }

@@ -8,23 +8,24 @@ namespace Transport.Repository.Repos
     public interface ITransportRepository: IReadOnlyRepositoryBase<Transportt, int>
     {
         Task<IEnumerable<Transportt>> GetByIdsAsync(int[] Ids);
-        Task<Option<Transportt>> GetByIdAsyncRepo(int Id);
+        new Task<Option<Transportt>> GetByIdAsync(int Id);
     }
 
     internal class TransportRepository: RepositoryBaseDapper<Transportt, int, AppDbContext>, ITransportRepository
     {
+        private readonly string TableName;
         public TransportRepository(AppDbContext context): base(context)
         {
-
+            TableName = DbContext.GetTableName<Transportt>();
         }
 
         public async Task<IEnumerable<Transportt>> GetByIdsAsync(int[] Ids)
         {
-            return await base.GetByIdsAsync(Ids, "dbo.transports");
+            return await base.GetByIdsAsync(Ids, TableName);
         }
-        public async Task<Option<Transportt>> GetByIdAsyncRepo(int Id)
+        public new async Task<Option<Transportt>> GetByIdAsync(int Id)
         {
-            return await base.GetByIdAsync(Id, "dbo.transports");
+            return await base.GetByIdAsync(Id, TableName);
         }
     }
 }
