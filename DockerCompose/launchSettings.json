@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "clients.authentication": "StartDebugging",
+        "identity.api": "StartDebugging",
+        "logistic.web": "StartDebugging",
+        "transport.api": "StartDebugging"
+      }
+    }
+  }
+}

@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>d43dada9-98e1-4e4f-9342-a3a61e5b7b52</ProjectGuid>
+    <ProjectGuid>de3a4e22-b65a-4064-bef3-b09471e20bcb</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>identity.api</DockerServiceName>

@@ -1,0 +1,17 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "composeLaunchAction": "LaunchBrowser",
+      "composeLaunchServiceName": "logistic.web",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
+      "serviceActions": {
+        "identity.api": "StartDebugging",
+        "logistic.web": "StartDebugging",
+        "transport.api": "StartDebugging",
+        "clients.authentication": "StartDebugging"
+      }
+    }
+  }
+}

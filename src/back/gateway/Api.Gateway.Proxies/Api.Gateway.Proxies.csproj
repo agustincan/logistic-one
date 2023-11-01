@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\common\Service.Common.Collection\Service.Common.Collection.csproj" />
     <ProjectReference Include="..\..\transport\Transport.Domain\Transport.Domain.csproj" />
   </ItemGroup>
 

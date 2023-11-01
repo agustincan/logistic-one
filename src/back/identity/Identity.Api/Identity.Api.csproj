@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\transport\Transport.Persistence\Transport.Persistence.csproj" />
-    <ProjectReference Include="..\Identity.Dtos\Identity.Dtos.csproj" />
     <ProjectReference Include="..\Identity.Persistence\Identity.Persistence.Database.csproj" />
     <ProjectReference Include="..\Identity.Services.EvenHandlers\Identity.Services.EvenHandlers.csproj" />
     <ProjectReference Include="..\Identity.Services.Queries\Identity.Services.Queries.csproj" />

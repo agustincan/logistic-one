@@ -22,7 +22,7 @@ namespace Transport.Api.Controllers
         private readonly ITransportService transportService;
 
         public TransportController(IMediator mediator,
-            ITransportService transportService )
+            ITransportService transportService ): base(mediator)
         {
             this.mediator = mediator;
             this.transportService = transportService;
