@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Transport.Domain.Models
 {
     [Table("Transports")]
-    public class Transportt
+    public class Transportt: EntityBaseGeneric<int>
     {
-        public int Id { get; set; }
         public string Description { get; set; }
         public string License { get; set; }
         public TransportType? Type { get; set; }

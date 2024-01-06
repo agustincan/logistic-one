@@ -27,8 +27,8 @@ namespace Identity.Api.Controllers
         [Route("user/{user}")]
         public async Task<DataCollection<SystemUserDto>> GetByUser(string user)
         {
-            return (await queryService.GetByUserAsync(1, 10, new string[] { user }))
-                .MapTo<DataCollection<SystemUserDto>>();
+            var res = await queryService.GetByUserAsync(1, 10, new string[] { user });
+            return res.MapTo<DataCollection<SystemUserDto>>();
         }
 
         [HttpGet]

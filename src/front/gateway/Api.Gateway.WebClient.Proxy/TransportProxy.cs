@@ -1,6 +1,6 @@
 ﻿using Api.Gateway.WebClient.Proxy.Config;
+using Common.Core.Collections;
 using Microsoft.AspNetCore.Http;
-using Service.Common.Collection;
 using Transport.Domain.Dtos;
 
 namespace Api.Gateway.WebClient.Proxy

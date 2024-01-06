@@ -5,9 +5,9 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Transport.Api.ActionFilters;
 using Transport.Api.Services;
 using Transport.Domain.Dtos;
-using Transport.Repository.Repos;
 using Transport.Service.EventHandler.Command;
 using Transport.Service.EventHandler.Queries;
 
@@ -16,9 +16,8 @@ namespace Transport.Api.Controllers
     //[Route("transport")]
     //[Route("api/v{version:apiVersion}/[controller]")]
     //[ApiVersion("1.0")]
-    public class TransportController : BaseApiController<TransportController>
+    public sealed class TransportController : BaseApiController<TransportController>
     {
-        private readonly ITransportRepository repo;
         private readonly ITransportService transportService;
 
         public TransportController(IMediator mediator,
@@ -73,10 +72,12 @@ namespace Transport.Api.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(AuthActionFilter))]
         public async Task<IActionResult> Create(TransportCreateCommand command)
         {
             var resultOption = await mediator.Send(command);
-            return resultOption.Match<IActionResult>(r => Ok(new { id = r }), NotFound); 
+            return resultOption
+                .Match<IActionResult>(r => Ok(new { id = r }), NotFound); 
             //Ok(new { id = res });
         }
     }

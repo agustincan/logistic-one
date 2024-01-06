@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Options;
-using Service.Common.Collection;
+﻿using Common.Core.Collections;
+using Microsoft.Extensions.Options;
 using System.Text.Json;
 using Transport.Domain.Dtos;
 
