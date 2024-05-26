@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Streets.Persistence.Database.Configuration;
 using Streets.Persistence.Database.Models;
+using Streets.Persistence.Database.Seeds;
 
 namespace Streets.Persistence.Database
 {
@@ -15,6 +16,7 @@ namespace Streets.Persistence.Database
             base.OnModelCreating(modelBuilder);
             //modelBuilder.HasDefaultSchema("Transport");
             ModelConfig(modelBuilder);
+            //ModelSeed(modelBuilder);
         }
 
         private void ModelConfig(ModelBuilder modelBuilder)
@@ -22,6 +24,12 @@ namespace Streets.Persistence.Database
             new StreetConfiguration(modelBuilder.Entity<Street>());
         }
 
-        public DbSet<Street> Streets { get; set; }
+        private void ModelSeed(ModelBuilder modelBuilder)
+        {
+            new StreetSeed(modelBuilder.Entity<Street>());
+        }
+
+        public virtual DbSet<Street> Streets { get; set; }
+        public virtual DbSet<StreetCopy> StreetCopies { get; set; }
     }
 }

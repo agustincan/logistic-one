@@ -81,6 +81,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Streets.Persistence.Databas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Streets.Application", "src\back\street\Street.Application\Streets.Application.csproj", "{D7DE5190-6407-4C7A-8F48-9234E59E04B4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performances", "Performances", "{98809C6A-ABF0-474D-A6AA-F7FC699326A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -237,6 +239,7 @@ Global
 		{E45A44F2-CCFE-4655-B6A8-F73A71D92792} = {AEDBA422-6E1C-44DE-8368-5160577E1989}
 		{081ECA9B-7DE2-4349-B767-770D2AD4D3D9} = {AEDBA422-6E1C-44DE-8368-5160577E1989}
 		{D7DE5190-6407-4C7A-8F48-9234E59E04B4} = {AEDBA422-6E1C-44DE-8368-5160577E1989}
+		{98809C6A-ABF0-474D-A6AA-F7FC699326A2} = {E3F038FC-1EB3-4696-8DD9-23CF8F089ED4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8E59E974-5A91-484D-973C-F663C23E3F74}

@@ -5,8 +5,8 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
@@ -70,10 +70,10 @@ namespace Identity.Services.EvenHandlers
                 )
             };
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var createdToken = tokenHandler.CreateToken(tokenDescriptor);
+            var tokenHandler = new JsonWebTokenHandler();
+            //var createdToken = tokenHandler.CreateToken(tokenDescriptor);
 
-            identity.AccessToken = tokenHandler.WriteToken(createdToken);
+            identity.AccessToken = tokenHandler.CreateToken(tokenDescriptor);
         }
     }
 }

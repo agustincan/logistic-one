@@ -16,5 +16,20 @@ namespace Streets.Application.Services
         {
             return await repo.GetByIdsAsync(Ids);
         }
+
+        public async Task Insert7000()
+        {
+            await repo.Insert7000();
+        }
+
+        public async Task Copy3000()
+        {
+            await repo.Copy3000();
+        }
+
+        public async Task Copy3000Raw()
+        {
+            await repo.Copy3000Raw();
+        }
     }
 }

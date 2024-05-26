@@ -8,6 +8,7 @@ namespace Streets.Persistence.Database.Configuration
         public StreetConfiguration(EntityTypeBuilder<Street> entityBuilder)
         {
             entityBuilder.HasIndex(x => x.Id);
+            entityBuilder.Property(x => x.Name).HasMaxLength(200);
         }
     }
 }
