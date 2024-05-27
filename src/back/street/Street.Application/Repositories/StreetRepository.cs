@@ -23,7 +23,7 @@ namespace Streets.Application.Repositories
                 listSeeds.Add(new Street() { Name = $"Street name {i}", Number = i * i + 1 });
             }
             await DbContext.Streets.AddRangeAsync(listSeeds);
-            await SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
             
         }
         public async Task Copy3000()
@@ -41,7 +41,7 @@ namespace Streets.Application.Repositories
                 });
 
             await DbContext.StreetCopies.AddRangeAsync(await q1.ToListAsync());
-            await SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
         }
 
         public async Task Copy3000Raw()
@@ -51,19 +51,17 @@ namespace Streets.Application.Repositories
                 DECLARE @Id int
                 INSERT INTO dbo.StreetCopies(StreetId, [Name], [Number], Active)
                 SELECT Id, [Name] , [Number], Active FROM dbo.Streets(nolock)
-                WHERE Id <= @Id
-            ";
+                WHERE Id <= @Id";
 
             string sql2 = $@"
                 DECLARE @Id int
                 INSERT INTO dbo.StreetCopies(StreetId, [Name], [Number], Active)
                 SELECT Id, [Name] , [Number], Active FROM dbo.Streets(nolock)
-                WHERE Id <= {par.Id}
-            ";
+                WHERE Id <= {par.Id}";
             
             //await DbContext.Database.ExecuteSqlRawAsync(sql, par);
            
-            await DbContext.Database.ExecuteSqlInterpolatedAsync(sql2);
+            await DbContext.Database.ExecuteSqlInterpolatedAsync($"{sql2}");
         }
     }
 }

@@ -4,12 +4,17 @@ using System.Reflection;
 using Transport.Domain.Models;
 
 namespace Transport.Persistence
-{
+{ 
     public sealed class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            
+         
+        }
+
+        public AppDbContext()
+        {
+
         }
 
         public DbSet<Transportt> Transports { get; set; }
