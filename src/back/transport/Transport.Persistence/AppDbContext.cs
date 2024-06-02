@@ -18,6 +18,7 @@ namespace Transport.Persistence
         }
 
         public DbSet<Transportt> Transports { get; set; }
+        public DbSet<Company> Companies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,6 +35,7 @@ namespace Transport.Persistence
         private void ModelConfig(ModelBuilder modelBuilder)
         {
             new TransportConfiguration(modelBuilder.Entity<Transportt>());
+            new CompanyConfiguration(modelBuilder.Entity<Company>());   
         }
     }
 }

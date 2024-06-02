@@ -1,57 +1,54 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity.Validation;
-using System.Linq;
+using Transport.Repository.UowGeneric;
 
-namespace Transport.Persistence
+namespace Transport.Repository.Repos.Base
 {
-    public class GenericRepository<T> : IGenericRepository<T>, IDisposable where T : class
+    public abstract class GenericRepositoryAsync<T, TDbContext> : IGenericRepositoryAsync<T, TDbContext>, IAsyncDisposable
+        where T : class
+        where TDbContext : DbContext, new()
     {
         private DbSet<T> _entities;
         private string _errorMessage = string.Empty;
         private bool _isDisposed;
+        private readonly IUnitOfWorkGeneric<TDbContext> unitOfWork;
+
         //While Creating an Instance of GenericRepository, we need to pass the UnitOfWork instance
         //That UnitOfWork instance contains the Context Object that our GenericRepository is going to use
-        public GenericRepository(IUnitOfWorkCustom<AppDbContext> unitOfWork)
-            : this(unitOfWork.Context)
+        public GenericRepositoryAsync(IUnitOfWorkGeneric<TDbContext> unitOfWork)
         {
+            _entities = unitOfWork.Context.Set<T>();
+            this.unitOfWork = unitOfWork;
         }
         //If you don't want to use Unit of Work, then use the following Constructor 
         //which takes the context Object as a parameter
-        public GenericRepository(AppDbContext context)
-        {
-            //Initialize _isDisposed to false and then set the Context Object
-            _isDisposed = false;
-            Context = context;
-        }
+        //public GenericRepositoryAsync(TDbContext context)
+        //{
+        //    //Initialize _isDisposed to false and then set the Context Object
+        //    _isDisposed = false;
+        //    Context = context;
+        //}
         //The following Property is going to return the Context Object
-        public AppDbContext Context { get; set; }
+        public TDbContext Context => unitOfWork.Context;
 
         //The following Property is going to set and return the Entity
         protected virtual DbSet<T> Entities
         {
             get { return _entities ?? (_entities = Context.Set<T>()); }
         }
-        //The following Method is going to Dispose of the Context Object
-        public void Dispose()
-        {
-            if (Context != null)
-                Context.Dispose();
-            _isDisposed = true;
-        }
+
         //Return all the Records from the Corresponding Table
-        public virtual IEnumerable<T> GetAll()
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
-            return Entities.ToList();
+            return await Entities.ToListAsync();
         }
         //Return a Record from the Coresponding Table based on the Primary Key
-        public virtual T GetById(object id)
+        public virtual async Task<T?> GetByIdAsync(object id)
         {
-            return Entities.Find(id);
+            return await Entities.FindAsync(id);
         }
         //The following Method is going to Insert a new entity into the table
-        public virtual void Insert(T entity)
+        public virtual async Task InsertAsync(T entity)
         {
             try
             {
@@ -60,11 +57,11 @@ namespace Transport.Persistence
                     throw new ArgumentNullException("Entity");
                 }
 
-                if (Context == null || _isDisposed)
-                {
-                    Context = new AppDbContext();
-                }
-                Entities.Add(entity);
+                //if (Context == null || _isDisposed)
+                //{
+                //    unitOfWork.Context = new TDbContext();
+                //}
+                await Entities.AddAsync(entity);
                 //commented out call to SaveChanges as Context save changes will be
                 //called with Unit of work
                 //Context.SaveChanges(); 
@@ -77,7 +74,7 @@ namespace Transport.Persistence
         }
 
         //The following Method is going to Update an existing entity in the table
-        public virtual void Update(T entity)
+        public virtual async Task UpdateAsync(T entity)
         {
             try
             {
@@ -86,11 +83,13 @@ namespace Transport.Persistence
                     throw new ArgumentNullException("Entity");
                 }
 
-                if (Context is null || _isDisposed)
-                {
-                    Context = new AppDbContext();
-                }
+                //if (Context is null || _isDisposed)
+                //{
+                //    Context = new TDbContext();
+                //}
+                _entities.Attach(entity);
                 Context.Entry(entity).State = EntityState.Modified;
+                await Task.CompletedTask;
                 //commented out call to SaveChanges as Context save changes will be called with Unit of work
                 //Context.SaveChanges(); 
             }
@@ -101,7 +100,7 @@ namespace Transport.Persistence
             }
         }
         //The following Method is going to Delete an existing entity from the table
-        public virtual void Delete(T entity)
+        public virtual async Task DeleteAsync(T entity)
         {
             try
             {
@@ -109,12 +108,14 @@ namespace Transport.Persistence
                 {
                     throw new ArgumentNullException("Entity");
                 }
-                if (Context is null || _isDisposed)
-                {
-                    Context = new AppDbContext();
-                }
+
+                //if (Context is null || _isDisposed)
+                //{
+                //    Context = new AppDbContext();
+                //}
 
                 Entities.Remove(entity);
+                await Task.CompletedTask;
                 //commented out call to SaveChanges as Context save changes will be called with Unit of work
                 //Context.SaveChanges(); 
             }
@@ -124,6 +125,16 @@ namespace Transport.Persistence
                 throw new Exception(_errorMessage, dbEx);
             }
         }
+
+        public async Task DeleteAsync(int id)
+        {
+            var entity = await _entities.FindAsync(id);
+            if (entity != null)
+            {
+                _entities.Remove(entity);
+            }
+        }
+
         private void HandleUnitOfWorkException(DbEntityValidationException dbEx)
         {
             foreach (var validationErrors in dbEx.EntityValidationErrors)
@@ -133,6 +144,19 @@ namespace Transport.Persistence
                     _errorMessage = _errorMessage + $"Property: {validationError.PropertyName} Error: {validationError.ErrorMessage} {Environment.NewLine}";
                 }
             }
+        }
+
+        //The following Method is going to Dispose of the Context Object
+        public async ValueTask DisposeAsync()
+        {
+            if (Context != null)
+                await Context.DisposeAsync();
+            _isDisposed = true;
+        }
+
+        public IQueryable<T> GetAll()
+        {
+            return _entities.AsQueryable();
         }
     }
 }

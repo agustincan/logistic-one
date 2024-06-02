@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Transport.Persistence
+namespace Transport.Repository.UowGeneric
 {
-    public interface IUnitOfWorkCustom<out TContext> where TContext : DbContext, new()
+    public interface IUnitOfWorkGeneric<TDbContext> 
+        where TDbContext : DbContext, new()
     {
         //The following Property is going to hold the context object
-        TContext Context { get; }
+        TDbContext Context { get; }
 
         //Start the database Transaction
         void CreateTransaction();

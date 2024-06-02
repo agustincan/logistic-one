@@ -11,6 +11,7 @@ namespace Transport.Api
             services.AddScoped<AuthActionFilter>();
 
             services.AddScoped<ITransportService, TransportService>();
+            services.AddScoped<ITransportServiceUow, TransportServiceUow>();
             return services;
         }
     }

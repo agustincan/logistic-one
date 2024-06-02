@@ -1,30 +1,29 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using LanguageExt;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Transport.Persistence
+namespace Transport.Repository.UowGeneric
 {
     //Generic UnitOfWork Class. 
     //While Creating an Instance of the UnitOfWork object, we need to specify the actual type for the TContext Generic Type
     //In our example, TContext is going to be EmployeeDBContext
     //new() constraint will make sure that this type is going to be a non-abstract type with a parameterless constructor
-    public class UnitOfWorkCustom<TContext> : IUnitOfWorkCustom<TContext>, IDisposable where TContext : DbContext, new()
+    public class UnitOfWorkGeneric<TDbContext> : IUnitOfWorkGeneric<TDbContext>, IDisposable 
+        where TDbContext : DbContext, new()
     {
         private bool _disposed;
         private string _errorMessage = string.Empty;
 
         //The following Object is going to hold the Transaction Object
-        private IDbContextTransaction _objTran;
+        private IDbContextTransaction? _objTran;
+        private readonly TDbContext context;
 
         //Using the Constructor we are initializing the Context Property which is declared in the IUnitOfWork Interface
         //This is nothing but we are storing the DBContext (EmployeeDBContext) object in Context Property
-        public UnitOfWorkCustom()
+        public UnitOfWorkGeneric(TDbContext context)
         {
-            Context = new TContext();
+            this.context = context;
         }
 
         //The Dispose() method is used to free unmanaged resources like files, 
@@ -43,7 +42,7 @@ namespace Transport.Persistence
 
         //The Context property will return the DBContext object i.e. (EmployeeDBContext) object
         //This Property is declared inside the Parent Interface and Initialized through the Constructor
-        public TContext Context { get; }
+        public TDbContext Context => context;
 
         //The CreateTransaction() method will create a database Transaction so that we can do database operations
         //by applying do everything and do nothing principle
@@ -64,13 +63,14 @@ namespace Transport.Persistence
         public void Commit()
         {
             //Commits the underlying store transaction
-            _objTran.Commit();
+            _objTran?.Commit();
         }
 
         public async Task CommitAsync(CancellationToken cancellationToken = default)
         {
             //Commits the underlying store transaction
-            await _objTran.CommitAsync(cancellationToken);
+            if (_objTran is not null)
+                await _objTran.CommitAsync(cancellationToken);
         }
 
         //If at least one of the Transaction is Failed then we need to call this Rollback() 
@@ -78,26 +78,29 @@ namespace Transport.Persistence
         public void Rollback()
         {
             //Rolls back the underlying store transaction
-            _objTran.Rollback();
+            _objTran?.Rollback();
             //The Dispose Method will clean up this transaction object and ensures Entity Framework
             //is no longer using that transaction.
-            _objTran.Dispose();
+            _objTran?.Dispose();
         }
 
         public async Task RollbackAsync(CancellationToken cancellationToken = default)
         {
             //Rolls back the underlying store transaction
-            await _objTran.RollbackAsync(cancellationToken);
-            //The Dispose Method will clean up this transaction object and ensures Entity Framework
-            //is no longer using that transaction.
-            await _objTran.DisposeAsync();
+            if(_objTran is not null)
+            {
+                await _objTran.RollbackAsync(cancellationToken);
+                //The Dispose Method will clean up this transaction object and ensures Entity Framework
+                //is no longer using that transaction.
+                await _objTran.DisposeAsync();
+            }
         }
 
         private void CheckValidations()
         {
             var validationResults = Context.ChangeTracker
                      .Entries<IValidatableObject>()
-                     .SelectMany(e => e.Entity.Validate(null))
+                     .SelectMany(e => e.Entity.Validate(null!))
                      .Where(r => r != ValidationResult.Success);
 
             if (validationResults.Any())
@@ -133,7 +136,7 @@ namespace Transport.Persistence
         public Task<int> SaveAsync(CancellationToken cancellationToken = default)
         {
             CheckValidations();
-                //Calling DbContext Class SaveChanges method 
+            //Calling DbContext Class SaveChanges method 
             return Context.SaveChangesAsync(cancellationToken);
         }
 

@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Transport.Domain\Transport.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

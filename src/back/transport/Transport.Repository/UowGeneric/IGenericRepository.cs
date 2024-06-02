@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Transport.Persistence
+﻿namespace Transport.Repository.UowGeneric
 {
     //Here, we are creating the IGenericRepository interface as a Generic Interface
     //Here, we are applying the Generic Constraint 

@@ -76,9 +76,12 @@ namespace Transport.Api.Controllers
         public async Task<IActionResult> Create(TransportCreateCommand command)
         {
             var resultOption = await mediator.Send(command);
+            //return CreatedAtAction(nameof(Create), new { id = resultOption. }, product);
             return resultOption
                 .Match<IActionResult>(r => Ok(new { id = r }), NotFound); 
             //Ok(new { id = res });
         }
+
+        
     }
 }

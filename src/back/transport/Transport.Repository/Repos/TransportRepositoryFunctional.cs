@@ -2,6 +2,7 @@
 using LanguageExt;
 using Transport.Domain.Models;
 using Transport.Persistence;
+using Transport.Repository.Repos.Base;
 
 namespace Transport.Repository.Repos
 {

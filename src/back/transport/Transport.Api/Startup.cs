@@ -23,11 +23,10 @@ namespace Transport.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(options =>
-               options.UseSqlServer(
-                   Configuration.GetConnectionString("DefaultConnection")
-               //x => x.MigrationsHistoryTable("__EFMigrationsHistory", "Transport")
-               ));
+            services.Configure<EnvironmentVars>(Configuration.GetSection(nameof(EnvironmentVars)));
+            //services.ConfigureOptions<EnvironmentVarsSetup>();
+
+            services.AddDbContexts(Configuration);
 
             //options.UseNpgsql(Configuration.GetConnectionString("CnnPg1")
             ////opt => opt.MigrationsHistoryTable("__EFMigrationsHistory", "Transport")

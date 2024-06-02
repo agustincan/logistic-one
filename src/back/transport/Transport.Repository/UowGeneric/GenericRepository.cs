@@ -1,51 +1,62 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using Common.Core.Domain;
+using Microsoft.EntityFrameworkCore;
 using System.Data.Entity.Validation;
-using System.Threading.Tasks;
 
-namespace Transport.Persistence
+namespace Transport.Repository.UowGeneric
 {
-    public class GenericRepositoryAsync<T> : IGenericRepositoryAsync<T>, IAsyncDisposable where T : class
+    public class GenericRepository<TModel, TKey, TDbContext> : IGenericRepository2<TKey, TModel>, IDisposable 
+        //where T : class
+        where TKey : struct
+        where TModel : EntityBaseGeneric<TKey>
+        where TDbContext : DbContext, new()
     {
-        private DbSet<T> _entities;
+        private DbSet<TModel> _entities;
         private string _errorMessage = string.Empty;
         private bool _isDisposed;
+        private readonly IUnitOfWorkGeneric<TDbContext> unitOfWork;
+
         //While Creating an Instance of GenericRepository, we need to pass the UnitOfWork instance
         //That UnitOfWork instance contains the Context Object that our GenericRepository is going to use
-        public GenericRepositoryAsync(IUnitOfWorkCustom<AppDbContext> unitOfWork)
-            : this(unitOfWork.Context)
+        public GenericRepository(IUnitOfWorkGeneric<TDbContext> unitOfWork)
         {
+            this.unitOfWork = unitOfWork;
+            _entities = this.unitOfWork.Context.Set<TModel>();
         }
         //If you don't want to use Unit of Work, then use the following Constructor 
         //which takes the context Object as a parameter
-        public GenericRepositoryAsync(AppDbContext context)
-        {
-            //Initialize _isDisposed to false and then set the Context Object
-            _isDisposed = false;
-            Context = context;
-        }
+        //public GenericRepository(AppDbContext context)
+        //{
+        //    //Initialize _isDisposed to false and then set the Context Object
+        //    _isDisposed = false;
+        //    Context = context;
+        //}
         //The following Property is going to return the Context Object
-        public AppDbContext Context { get; set; }
+        public TDbContext Context { get; set; }
 
         //The following Property is going to set and return the Entity
-        protected virtual DbSet<T> Entities
+        protected virtual DbSet<TModel> Entities
         {
-            get { return _entities ?? (_entities = Context.Set<T>()); }
+            get { return _entities ?? (_entities = Context.Set<TModel>()); }
         }
-        
+        //The following Method is going to Dispose of the Context Object
+        public void Dispose()
+        {
+            if (Context != null)
+                Context.Dispose();
+            _isDisposed = true;
+        }
         //Return all the Records from the Corresponding Table
-        public virtual async Task<IEnumerable<T>> GetAllAsync()
-        {
-            return await Entities.ToListAsync();
-        }
+        //public virtual IEnumerable<T> GetAll()
+        //{
+        //    return Entities.ToList();
+        //}
         //Return a Record from the Coresponding Table based on the Primary Key
-        public virtual async Task<T> GetByIdAsync(object id)
-        {
-            return await Entities.FindAsync(id);
-        }
+        //public virtual TModel? GetById(object id)
+        //{
+        //    return Entities.Find(id);
+        //}
         //The following Method is going to Insert a new entity into the table
-        public virtual async Task InsertAsync(T entity)
+        public virtual void Insert(TModel entity)
         {
             try
             {
@@ -56,9 +67,9 @@ namespace Transport.Persistence
 
                 if (Context == null || _isDisposed)
                 {
-                    Context = new AppDbContext();
+                    Context = new TDbContext();
                 }
-                await Entities.AddAsync(entity);
+                Entities.Add(entity);
                 //commented out call to SaveChanges as Context save changes will be
                 //called with Unit of work
                 //Context.SaveChanges(); 
@@ -71,7 +82,7 @@ namespace Transport.Persistence
         }
 
         //The following Method is going to Update an existing entity in the table
-        public virtual async Task UpdateAsync(T entity)
+        public virtual void Update(TModel entity)
         {
             try
             {
@@ -82,10 +93,9 @@ namespace Transport.Persistence
 
                 if (Context is null || _isDisposed)
                 {
-                    Context = new AppDbContext();
+                    Context = new TDbContext();
                 }
                 Context.Entry(entity).State = EntityState.Modified;
-                await Task.CompletedTask;
                 //commented out call to SaveChanges as Context save changes will be called with Unit of work
                 //Context.SaveChanges(); 
             }
@@ -96,7 +106,7 @@ namespace Transport.Persistence
             }
         }
         //The following Method is going to Delete an existing entity from the table
-        public virtual async Task DeleteAsync(T entity)
+        public virtual void Delete(TModel entity)
         {
             try
             {
@@ -106,11 +116,10 @@ namespace Transport.Persistence
                 }
                 if (Context is null || _isDisposed)
                 {
-                    Context = new AppDbContext();
+                    Context = new TDbContext();
                 }
 
                 Entities.Remove(entity);
-                await Task.CompletedTask;
                 //commented out call to SaveChanges as Context save changes will be called with Unit of work
                 //Context.SaveChanges(); 
             }
@@ -131,12 +140,14 @@ namespace Transport.Persistence
             }
         }
 
-        //The following Method is going to Dispose of the Context Object
-        public async ValueTask DisposeAsync()
+        public TModel? GetById(object id)
         {
-            if (Context != null)
-                await Context.DisposeAsync();
-            _isDisposed = true;
+            return _entities.Find(id);
+        }
+
+        public IQueryable<TModel> GetAll()
+        {
+            return _entities.AsQueryable();
         }
     }
 }
