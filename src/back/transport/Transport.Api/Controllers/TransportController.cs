@@ -3,6 +3,7 @@ using Common.Core.Controllers;
 using Common.Core.Mapping;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Transport.Api.ActionFilters;
@@ -13,25 +14,22 @@ using Transport.Service.EventHandler.Queries;
 
 namespace Transport.Api.Controllers
 {
-    //[Route("transport")]
-    //[Route("api/v{version:apiVersion}/[controller]")]
-    //[ApiVersion("1.0")]
-    public sealed class TransportController : BaseApiController<TransportController>
+    public sealed class TransportController : BaseApiCqrsController<TransportController>
     {
         private readonly ITransportService transportService;
 
-        public TransportController(IMediator mediator,
-            ITransportService transportService ): base(mediator)
+        public TransportController(
+            ITransportService transportService )
         {
-            this.mediator = mediator;
             this.transportService = transportService;
         }
 
         //[MapToApiVersion("1.0")]
         [HttpGet]
-        public async Task<DataCollection<TransportDto>> Get(int page = 1, int take = 20)
+        public async Task<DataCollection<TransportDto>> Get(int page = 1, int take = 20) 
         {
             var result = await mediator.Send(new TransportListAll() { Page = page, Take = take });
+            Logger.LogInformation("Get trasnport all executed");
             return result.MapTo<DataCollection<TransportDto>>();
         }
 

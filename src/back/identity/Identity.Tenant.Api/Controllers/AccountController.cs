@@ -6,13 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.Tenant.Api.Controllers
 {
-    public class AccountController : BaseApiController
+    public class AccountController : BaseApiCqrsController<AccountController>
     {
-        private readonly IMediator mediator;
-
-        public AccountController(IMediator mediator)
+        public AccountController()
         {
-            this.mediator = mediator;
+            
         }
 
         [HttpGet]

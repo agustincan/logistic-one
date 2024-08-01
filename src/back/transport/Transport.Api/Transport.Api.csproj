@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.0.1" />
     <PackageReference Include="LanguageExt.Core" Version="4.2.9" />
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
@@ -26,11 +27,6 @@
     <ProjectReference Include="..\Transport.Persistence\Transport.Persistence.csproj" />
     <ProjectReference Include="..\Transport.Repository\Transport.Repository.csproj" />
     <ProjectReference Include="..\Transport.Service.EventHandler\Transport.Service.EventHandler.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Middlewares\" />
-    <Folder Include="Validators\" />
   </ItemGroup>
 
 
