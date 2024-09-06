@@ -1,7 +1,6 @@
-﻿using Common.Core.Controllers;
-using Identity.Services.EvenHandlers.Commands;
+﻿using Identity.Services.EvenHandlers.Commands;
 using Identity.Services.EvenHandlers.Queries;
-using MediatR;
+using Identity.Tenant.Api.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.Tenant.Api.Controllers

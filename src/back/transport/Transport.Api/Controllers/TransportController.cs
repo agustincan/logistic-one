@@ -48,14 +48,28 @@ namespace Transport.Api.Controllers
                 .Match<IActionResult>(Ok, NotFound);
         }
 
+        [HttpGet("license-option/{license}")]
+        public async Task<IActionResult> GetByLicenseOption(string license)
+        {
+            var result = (await mediator.Send(new TransportGetByLicenseOption() { License = license }));
+            //result.Items.Map(i => i.MapTo<TransportDto>());
+            return result
+                .Map(r => r.Items.Map(rr => rr.MapTo<TransportDto>()))
+                .Match<IActionResult>(r => Ok(r), NotFound);
+        }
+
         [HttpGet("license/{license}")]
         public async Task<IActionResult> GetByLicense(string license)
         {
             var result = (await mediator.Send(new TransportGetByLicense() { License = license }));
             //result.Items.Map(i => i.MapTo<TransportDto>());
-            return result
-                .Map(r => r.Items.Map(rr => rr.MapTo<TransportDto>()))
-                .Match<IActionResult>(r => Ok(r), NotFound);
+            return Ok(result.MapTo<TransportDto>());
+        }
+
+        [HttpGet("license2")]
+        public async Task<IActionResult> GetByLicense2([FromQuery]TransportGetByLicense request)
+        {
+            return Ok(await Task.FromResult(request));
         }
 
         [HttpPost("by-ids")]
@@ -71,12 +85,13 @@ namespace Transport.Api.Controllers
 
         [HttpPost]
         [ServiceFilter(typeof(AuthActionFilter))]
-        public async Task<IActionResult> Create(TransportCreateCommand command)
+        public async Task<IActionResult> Create([FromBody]TransportCreateCommand command)
         {
-            var resultOption = await mediator.Send(command);
+            var result = await mediator.Send(command);
             //return CreatedAtAction(nameof(Create), new { id = resultOption. }, product);
-            return resultOption
-                .Match<IActionResult>(r => Ok(new { id = r }), NotFound); 
+            return Ok(result);
+            //return resultOption
+            //    .Match<IActionResult>(r => Ok(new { id = r }), NoContent); 
             //Ok(new { id = res });
         }
 

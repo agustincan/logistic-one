@@ -28,7 +28,7 @@ namespace Transport.Test2
             var res = new List<Transportt>();
             res.Add(new Transportt() { Id = 1, License = "LIC111" });
             res.Add(new Transportt() { Id = 2, License = "LIC112" });
-            var mockTransportContoller = new TransportController(mockMediator.Object, mockTransportService.Object);
+            var mockTransportContoller = new TransportController(mockTransportService.Object);
             mockTransportService.Setup(s => s.GetByIdsAsync(It.IsAny<int[]>())).ReturnsAsync(res);
             mockTransportRepo.Setup(s => s.GetByIdsAsync(It.IsAny<int[]>())).ReturnsAsync(res);
             var result = await mockTransportContoller.GetByIds(It.IsAny<int[]>());

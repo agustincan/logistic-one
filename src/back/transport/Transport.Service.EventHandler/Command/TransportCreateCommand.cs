@@ -4,11 +4,10 @@ using System.Threading;
 using Transport.Domain.Models;
 using Common.Core.Domain;
 using Transport.Persistence;
-using LanguageExt;
 
 namespace Transport.Service.EventHandler.Command
 {
-    public class TransportCreateCommand : IRequest<Option<int>>
+    public class TransportCreateCommand : IRequest<int>
     {
         //public int Id { get; set; }
         public string Description { get; set; }
@@ -19,7 +18,7 @@ namespace Transport.Service.EventHandler.Command
         public StatusType Status { get; set; } = StatusType.Enabled;
     }
 
-    internal class TransportCreateHandler : IRequestHandler<TransportCreateCommand, Option<int>>
+    internal class TransportCreateHandler : IRequestHandler<TransportCreateCommand, int>
     {
         private readonly AppDbContext context;
 
@@ -27,7 +26,7 @@ namespace Transport.Service.EventHandler.Command
         {
             this.context = context;
         }
-        public async Task<Option<int>> Handle(TransportCreateCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(TransportCreateCommand request, CancellationToken cancellationToken)
         {
             var transport = new Transportt()
             {
@@ -38,6 +37,7 @@ namespace Transport.Service.EventHandler.Command
             };
             await context.Transports.AddAsync(transport);
             await context.SaveChangesAsync();
+            
             return transport.Id;
 
         }
