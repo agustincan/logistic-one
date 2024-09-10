@@ -26,7 +26,8 @@ namespace Transport.Api.Validators
         {
             if (!validators.Any())
                 return await next();
-            var errors = validators.Select(val => val.Validate(request))
+            var errors = validators
+                .Select(val => val.Validate(request))
                 .SelectMany(valResult => valResult.Errors)
                 .Where(valFailure => valFailure is not null)
                 .Select(fail => new Error(

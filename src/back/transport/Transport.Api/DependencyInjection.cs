@@ -3,6 +3,8 @@ using Transport.Api.ActionFilters;
 using Transport.Api.Services;
 using MediatR;
 using Transport.Api.Validators;
+using System.Reflection;
+using FluentValidation;
 
 namespace Transport.Api
 {
@@ -13,10 +15,10 @@ namespace Transport.Api
             services.AddMediatR(typeof(Startup).Assembly);
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehaviorApi<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
             //services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
             //services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior2<,>));
-            //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), includeInternalTypes: true);
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), includeInternalTypes: true);
             //services.AddValidatorsFromAssemblyContaining<TransportCreateCommandValidator>();
 
             services.AddScoped<AuthActionFilter>();
