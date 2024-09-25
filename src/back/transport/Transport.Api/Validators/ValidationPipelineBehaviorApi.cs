@@ -34,12 +34,6 @@ namespace Transport.Api.Validators
                 .SelectMany(valResult => valResult.Errors)
                 .Where(valFailure => valFailure is not null)
                 .ToArray();
-                //.Select(fail => new Error(
-                //    fail.PropertyName,
-                //    fail.ErrorMessage
-                //))
-                //.Distinct()
-                //.ToArray();
 
             if (errors.Any())
             {
