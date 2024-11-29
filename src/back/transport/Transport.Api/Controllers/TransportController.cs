@@ -1,7 +1,5 @@
 ﻿using Common.Core.Collections;
-using Common.Core.Controllers;
 using Common.Core.Mapping;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;

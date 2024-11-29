@@ -1,6 +1,4 @@
-﻿using Common.Core.Controllers;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Transport.Api.ActionFilters;

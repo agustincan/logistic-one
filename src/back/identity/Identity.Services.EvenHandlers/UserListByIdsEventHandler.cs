@@ -1,4 +1,4 @@
-﻿using Common.Core.Domain;
+﻿using Common.Core.Identity.Domain;
 using Common.Core.Mapping;
 using Identity.Dtos;
 using Identity.Services.EvenHandlers.Queries;

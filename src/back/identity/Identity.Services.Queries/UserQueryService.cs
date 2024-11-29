@@ -1,8 +1,7 @@
 ﻿using Common.Core.Collections;
-using Common.Core.Domain;
+using Common.Core.Identity.Domain;
 using Common.Core.Mapping;
-using Common.Core.Paging;
-using Identity.Dtos;
+using Common.Core.Persistence.Paging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

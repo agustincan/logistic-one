@@ -1,4 +1,3 @@
-using Common.Core.Domain;
 using Microsoft.AspNetCore.Identity;
 using System.Reflection;
 using System.Text;
@@ -8,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Identity.Services.Queries;
-using Common.Core.Multitenancy;
+using Common.Core.Identity.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,4 +1,4 @@
-﻿using Common.Core.Domain;
+﻿using Identity.Domain;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Identity.Persistence.Database.Configuration

@@ -7,13 +7,15 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.9.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.1" />
-    <PackageReference Include="LanguageExt.Core" Version="4.2.9" />
+    <PackageReference Include="LanguageExt.Core" Version="4.4.9" />
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
     <PackageReference Include="Microsoft.Build.Tasks.Core" Version="17.2.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\Common.Core.Functional\Common.Core.Functional.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\Common.Core.Persistence\Common.Core.Persistence.csproj" />
     <ProjectReference Include="..\Transport.Domain\Transport.Domain.csproj" />
     <ProjectReference Include="..\Transport.Persistence\Transport.Persistence.csproj" />
   </ItemGroup>

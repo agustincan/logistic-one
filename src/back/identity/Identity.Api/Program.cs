@@ -1,4 +1,4 @@
-using Common.Core.Domain;
+using Common.Core.Identity.Domain;
 using Identity.Persistence.Database;
 using Identity.Services.EvenHandlers.DependencyInjection;
 using Identity.Services.Queries;

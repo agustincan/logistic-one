@@ -1,4 +1,4 @@
-﻿using Common.Core.Domain;
+﻿using Identity.Domain;
 using Identity.Persistence.Database.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

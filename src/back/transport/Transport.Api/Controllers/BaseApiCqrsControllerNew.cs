@@ -1,4 +1,4 @@
-﻿using Common.Core.Controllers;
+﻿using Common.Core.Web.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,5 +1,5 @@
-﻿using Common.Core.Domain;
-using Common.Core.Multitenancy;
+﻿using Common.Core.Identity.Domain;
+using Common.Core.Identity.Multitenancy;
 using Identity.Persistence.Database.Tenant.Configuration;
 using Microsoft.EntityFrameworkCore;
 

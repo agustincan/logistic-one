@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\Common.Core.Persistence\Common.Core.Persistence.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\Common.Core\Common.Core.csproj" />
     <ProjectReference Include="..\Transport.Domain\Transport.Domain.csproj" />
     <ProjectReference Include="..\Transport.Persistence\Transport.Persistence.csproj" />
@@ -18,6 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="LanguageExt.Core" Version="4.2.9" />
   </ItemGroup>
 
 </Project>

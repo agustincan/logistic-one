@@ -1,6 +1,5 @@
-﻿using Common.Core.Domain;
+﻿using Identity.Domain;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
 namespace Identity.Persistence.Database.Configuration
 {

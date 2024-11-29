@@ -1,6 +1,7 @@
 ﻿using Common.Core.Collections;
 using Common.Core.Mapping;
 using Common.Core.Paging;
+using Common.Core.Persistence.Paging;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;

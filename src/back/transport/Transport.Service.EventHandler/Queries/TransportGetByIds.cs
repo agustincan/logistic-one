@@ -1,6 +1,6 @@
 ﻿using Common.Core.Collections;
 using Common.Core.Mapping;
-using Common.Core.Paging;
+using Common.Core.Persistence.Paging;
 using MediatR;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
 ﻿using Common.Core.Collections;
-using Common.Core.Domain;
+using Common.Core.Identity.Domain;
 
 namespace Identity.Services.Queries
 {

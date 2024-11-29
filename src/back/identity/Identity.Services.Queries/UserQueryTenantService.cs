@@ -1,6 +1,6 @@
 ﻿using Common.Core.Collections;
-using Common.Core.Domain;
-using Common.Core.Paging;
+using Common.Core.Identity.Domain;
+using Common.Core.Persistence.Paging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

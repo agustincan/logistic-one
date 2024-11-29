@@ -1,5 +1,7 @@
 ﻿using Common.Core.Collections;
+using Common.Core.Functional;
 using Common.Core.Paging;
+using Common.Core.Persistence.Paging;
 using LanguageExt;
 using MediatR;
 using System.Linq;

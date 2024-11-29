@@ -1,8 +1,6 @@
-﻿using Common.Core.Repository;
-using LanguageExt;
+﻿using Common.Core.Persistence.Repository;
 using Transport.Domain.Models;
 using Transport.Persistence;
-using Transport.Repository.Repos.Base;
 
 namespace Transport.Repository.Repos
 {
@@ -12,17 +10,18 @@ namespace Transport.Repository.Repos
         //new Task<Option<Transportt>> GetByIdAsync(int Id);
     }
 
-    internal class TransportRepository: RepositoryBaseDapper<Transportt, int, AppDbContext>, ITransportRepository
+    internal class TransportRepository: RepositoryBase<Transportt, int, AppDbContext>, ITransportRepository
     {
-        private readonly string TableName;
+        //private readonly string TableName;
         public TransportRepository(AppDbContext context): base(context)
         {
-            TableName = DbContext.GetTableName<Transportt>();
+            //TableName = DbContext.GetTableName<Transportt>();
         }
 
         public new async Task<IEnumerable<Transportt>> GetByIdsAsync(int[] Ids)
         {
-            return await base.GetByIdsAsync(Ids, TableName);
+            //return await base.GetByIdsAsync(Ids, TableName);
+            return await base.GetByIdsAsync(Ids);
         }
     }
 }

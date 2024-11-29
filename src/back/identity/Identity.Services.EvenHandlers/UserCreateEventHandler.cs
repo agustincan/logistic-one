@@ -1,4 +1,4 @@
-﻿using Common.Core.Domain;
+﻿using Common.Core.Identity.Domain;
 using Common.Core.Multitenancy;
 using Identity.Services.EvenHandlers.Commands;
 using MediatR;

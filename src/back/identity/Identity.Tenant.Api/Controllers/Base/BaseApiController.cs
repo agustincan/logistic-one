@@ -1,4 +1,4 @@
-﻿using Common.Core.Controllers;
+﻿using Common.Core.Web.Controllers;
 using MediatR;
 
 namespace Identity.Tenant.Api.Controllers.Base
