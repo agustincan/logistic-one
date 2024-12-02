@@ -1,7 +1,4 @@
-﻿using LanguageExt;
-using Microsoft.EntityFrameworkCore;
-
-namespace Streets.Persistence.Database
+﻿namespace Streets.Persistence.Database
 {
     public interface IUnitOfWork
     {

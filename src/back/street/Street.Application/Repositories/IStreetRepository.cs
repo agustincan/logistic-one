@@ -1,4 +1,4 @@
-﻿using Common.Core.Repository;
+﻿using Common.Core.Persistence.Repository;
 using Streets.Persistence.Database.Models;
 
 namespace Streets.Application.Repositories

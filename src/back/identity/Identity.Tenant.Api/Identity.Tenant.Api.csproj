@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\Common.Core.Web\Common.Core.Web.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\Common.Core\Common.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\src\Common.Core.Web\Common.Core.Web.csproj" />
     <ProjectReference Include="..\Identity.Persistence.Database.Tenant\Identity.Persistence.Database.Tenant.csproj" />
     <ProjectReference Include="..\Identity.Services.EvenHandlers\Identity.Services.EvenHandlers.csproj" />
     <ProjectReference Include="..\Identity.Services.Queries\Identity.Services.Queries.csproj" />

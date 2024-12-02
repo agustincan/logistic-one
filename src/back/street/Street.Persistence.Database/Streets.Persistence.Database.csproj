@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\Common.Core\Common.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\src\Common.Core\Common.Core.csproj" />
   </ItemGroup>
 
 </Project>

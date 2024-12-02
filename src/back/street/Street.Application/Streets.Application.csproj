@@ -13,6 +13,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\Common.Core\Common.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\src\Common.Core.Persistence\Common.Core.Persistence.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\src\Common.Core\Common.Core.csproj" />
     <ProjectReference Include="..\Street.Persistence.Database\Streets.Persistence.Database.csproj" />
   </ItemGroup>
 

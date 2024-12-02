@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\src\Common.Core\Common.Core.csproj" />
     <ProjectReference Include="..\..\transport\Transport.Persistence\Transport.Persistence.csproj" />
     <ProjectReference Include="..\Identity.Persistence\Identity.Persistence.Database.csproj" />
     <ProjectReference Include="..\Identity.Services.EvenHandlers\Identity.Services.EvenHandlers.csproj" />
