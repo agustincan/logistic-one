@@ -15,6 +15,7 @@ namespace Transport.Repository
 
             services.TryAddScoped<ITransportRepository, TransportRepository>();
             services.TryAddScoped<ITransportRepositoryUow, TransportRepositoryUow>();
+            services.TryAddScoped<ICompanyRepositoryUow, CompanyRepositoryUow>();
 
             return services;
         }
