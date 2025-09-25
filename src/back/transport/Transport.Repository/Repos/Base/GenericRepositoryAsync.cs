@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Data.Entity.Validation;
+using System.ComponentModel.DataAnnotations;
 using Transport.Repository.UowGeneric;
 
 namespace Transport.Repository.Repos.Base
@@ -56,19 +56,11 @@ namespace Transport.Repository.Repos.Base
                 {
                     throw new ArgumentNullException("Entity");
                 }
-
-                //if (Context == null || _isDisposed)
-                //{
-                //    unitOfWork.Context = new TDbContext();
-                //}
                 await Entities.AddAsync(entity);
-                //commented out call to SaveChanges as Context save changes will be
-                //called with Unit of work
-                //Context.SaveChanges(); 
             }
-            catch (DbEntityValidationException dbEx)
+            catch (ValidationException dbEx)
             {
-                HandleUnitOfWorkException(dbEx);
+                _errorMessage = dbEx.Message;
                 throw new Exception(_errorMessage, dbEx);
             }
         }
@@ -82,20 +74,13 @@ namespace Transport.Repository.Repos.Base
                 {
                     throw new ArgumentNullException("Entity");
                 }
-
-                //if (Context is null || _isDisposed)
-                //{
-                //    Context = new TDbContext();
-                //}
                 _entities.Attach(entity);
                 Context.Entry(entity).State = EntityState.Modified;
                 await Task.CompletedTask;
-                //commented out call to SaveChanges as Context save changes will be called with Unit of work
-                //Context.SaveChanges(); 
             }
-            catch (DbEntityValidationException dbEx)
+            catch (ValidationException dbEx)
             {
-                HandleUnitOfWorkException(dbEx);
+                _errorMessage = dbEx.Message;
                 throw new Exception(_errorMessage, dbEx);
             }
         }
@@ -108,20 +93,12 @@ namespace Transport.Repository.Repos.Base
                 {
                     throw new ArgumentNullException("Entity");
                 }
-
-                //if (Context is null || _isDisposed)
-                //{
-                //    Context = new AppDbContext();
-                //}
-
                 Entities.Remove(entity);
                 await Task.CompletedTask;
-                //commented out call to SaveChanges as Context save changes will be called with Unit of work
-                //Context.SaveChanges(); 
             }
-            catch (DbEntityValidationException dbEx)
+            catch (ValidationException dbEx)
             {
-                HandleUnitOfWorkException(dbEx);
+                _errorMessage = dbEx.Message;
                 throw new Exception(_errorMessage, dbEx);
             }
         }
@@ -132,17 +109,6 @@ namespace Transport.Repository.Repos.Base
             if (entity != null)
             {
                 _entities.Remove(entity);
-            }
-        }
-
-        private void HandleUnitOfWorkException(DbEntityValidationException dbEx)
-        {
-            foreach (var validationErrors in dbEx.EntityValidationErrors)
-            {
-                foreach (var validationError in validationErrors.ValidationErrors)
-                {
-                    _errorMessage = _errorMessage + $"Property: {validationError.PropertyName} Error: {validationError.ErrorMessage} {Environment.NewLine}";
-                }
             }
         }
 

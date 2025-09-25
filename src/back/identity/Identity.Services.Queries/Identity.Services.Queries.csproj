@@ -11,8 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\Common.Core.Identity\Common.Core.Identity.csproj" />
-    <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\Common.Core\Common.Core.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\src\Common.Core.Identity\Common.Core.Identity.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\dotnet\Common.Core\src\Common.Core\Common.Core.csproj" />
     <ProjectReference Include="..\Identity.Dtos\Identity.Dtos.csproj" />
