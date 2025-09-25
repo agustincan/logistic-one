@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Transport.Domain\Transport.Domain.csproj" />
+    <ProjectReference Include="..\..\..\common\Domain.Common\Domain.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

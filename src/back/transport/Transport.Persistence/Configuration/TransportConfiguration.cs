@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Transport.Domain.Models;
+using Common.Core.Domain;
 
 namespace Transport.Persistence
 {
@@ -13,19 +14,13 @@ namespace Transport.Persistence
             entityBuilder.HasIndex(x => x.Id);
             entityBuilder.Property(x => x.Description).IsRequired().HasMaxLength(200);
 
-            var random = new Random();
-            var products = new List<Transportt>();
-
-            for (var i = 1; i <= 10; i++)
+            // Seed data
+            entityBuilder.HasData(new List<Transportt>
             {
-                products.Add(new Transportt
-                {
-                    Id = i,
-                    Description = $"Description for transport {i}",
-                });
-            }
-
-            entityBuilder.HasData(products);
+                new Transportt { Id = 1, Description = "Transport 1", License = "ABC123", Type = TransportType.Car, StatusMode = TransportMode.Created, Status = StatusType.Enabled, Active = true },
+                new Transportt { Id = 2, Description = "Transport 2", License = "DEF456", Type = TransportType.Truck, StatusMode = TransportMode.Operative, Status = StatusType.Enabled, Active = true },
+                new Transportt { Id = 3, Description = "Transport 3", License = "GHI789", Type = TransportType.Bus, StatusMode = TransportMode.InDeposit, Status = StatusType.Disabled, Active = false }
+            });
         }
     }
 }

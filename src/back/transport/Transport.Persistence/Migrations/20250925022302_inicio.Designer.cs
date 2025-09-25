@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Transport.Persistence;
 
@@ -11,9 +12,10 @@ using Transport.Persistence;
 namespace Transport.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250925022302_inicio")]
+    partial class inicio
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,32 +52,6 @@ namespace Transport.Persistence.Migrations
                     b.HasIndex("Id");
 
                     b.ToTable("Companies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Active = true,
-                            CreatedAt = new DateTime(2024, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "A1",
-                            Test = (byte)1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Active = true,
-                            CreatedAt = new DateTime(2024, 6, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "B2",
-                            Test = (byte)2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Active = true,
-                            CreatedAt = new DateTime(2024, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "C3",
-                            Test = (byte)3
-                        });
                 });
 
             modelBuilder.Entity("Transport.Domain.Models.Transportt", b =>
@@ -117,31 +93,71 @@ namespace Transport.Persistence.Migrations
                         {
                             Id = 1,
                             Active = true,
-                            Description = "Transport 1",
-                            License = "ABC123",
-                            Status = 1,
-                            StatusMode = 0,
-                            Type = 1
+                            Description = "Description for transport 1",
+                            Status = 1
                         },
                         new
                         {
                             Id = 2,
                             Active = true,
-                            Description = "Transport 2",
-                            License = "DEF456",
-                            Status = 1,
-                            StatusMode = 1,
-                            Type = 2
+                            Description = "Description for transport 2",
+                            Status = 1
                         },
                         new
                         {
                             Id = 3,
-                            Active = false,
-                            Description = "Transport 3",
-                            License = "GHI789",
-                            Status = 2,
-                            StatusMode = 2,
-                            Type = 3
+                            Active = true,
+                            Description = "Description for transport 3",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Active = true,
+                            Description = "Description for transport 4",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Active = true,
+                            Description = "Description for transport 5",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Active = true,
+                            Description = "Description for transport 6",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Active = true,
+                            Description = "Description for transport 7",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Active = true,
+                            Description = "Description for transport 8",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Active = true,
+                            Description = "Description for transport 9",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Active = true,
+                            Description = "Description for transport 10",
+                            Status = 1
                         });
                 });
 #pragma warning restore 612, 618

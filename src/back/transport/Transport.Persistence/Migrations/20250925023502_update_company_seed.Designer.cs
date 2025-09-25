@@ -12,14 +12,14 @@ using Transport.Persistence;
 namespace Transport.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240602202725_inicio")]
-    partial class inicio
+    [Migration("20250925023502_update_company_seed")]
+    partial class update_company_seed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.22")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -52,6 +52,32 @@ namespace Transport.Persistence.Migrations
                     b.HasIndex("Id");
 
                     b.ToTable("Companies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Active = true,
+                            CreatedAt = new DateTime(2024, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "A1",
+                            Test = (byte)1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Active = true,
+                            CreatedAt = new DateTime(2024, 6, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "B2",
+                            Test = (byte)2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Active = true,
+                            CreatedAt = new DateTime(2024, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "C3",
+                            Test = (byte)3
+                        });
                 });
 
             modelBuilder.Entity("Transport.Domain.Models.Transportt", b =>
