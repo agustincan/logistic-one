@@ -25,5 +25,15 @@ namespace Transport.Api.Controllers
             Logger.LogInformation("Transport crated log");
             return Ok(resultOption);
         }
+
+        [HttpPut("{id}")]
+        [ServiceFilter(typeof(AuthActionFilter))]
+        public async Task<IActionResult> Update(int id, TransportUpdateCommand command)
+        {
+            var updated = await transpService.Update(id, command);
+            if (!updated)
+                return NotFound();
+            return NoContent();
+        }
     }
 }

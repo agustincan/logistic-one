@@ -23,6 +23,20 @@ namespace Transport.Api.Services
                 Type = data.Type
             };
             return await repoUow.Insert(t);
-        } 
+        }
+
+        public async Task<bool> Update(int id, TransportUpdateCommand data)
+        {
+            var t = new Transportt()
+            {
+                Id = data.Id,
+                Description = data.Description,
+                License = data.License,
+                Type = data.Type,
+                StatusMode = data.StatusMode,
+                Status = data.Status
+            };
+            return await repoUow.Update(id, t);
+        }
     }
 }
