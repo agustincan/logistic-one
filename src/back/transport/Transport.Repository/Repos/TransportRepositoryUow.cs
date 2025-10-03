@@ -2,6 +2,7 @@
 using Transport.Persistence;
 using Transport.Repository.Abstractions;
 using Transport.Repository.UowGeneric;
+using Microsoft.EntityFrameworkCore;
 
 namespace Transport.Repository.Repos
 {
@@ -25,6 +26,24 @@ namespace Transport.Repository.Repos
             
             uow.Context.Companies.Add(data2);
             return await uow.SaveAsync();
+        }
+
+        public async Task<bool> Update(int id, Transportt data)
+        {
+            if (id != data.Id) return false;
+            uow.Context.Entry(data).State = EntityState.Modified;
+            try
+            {
+                await uow.SaveAsync();
+                return true;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await uow.Context.Transports.AnyAsync(e => e.Id == id))
+                    return false;
+                else
+                    throw;
+            }
         }
     }
 }

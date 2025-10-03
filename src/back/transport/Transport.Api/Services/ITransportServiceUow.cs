@@ -6,5 +6,6 @@ namespace Transport.Api.Services
     public interface ITransportServiceUow
     {
         Task<int> Insert(TransportCreateCommand data);
+        Task<bool> Update(int id, TransportUpdateCommand data);
     }
 }
